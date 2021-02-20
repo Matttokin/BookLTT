@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BookLTT.DataBase.Models.Book>
+
+@{
+    ViewBag.Title = "Главная";
+}
+
+<h2>Список книг</h2>
+
+<p>
+    @Html.ActionLink("Добавить новую", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Author.NickName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DatePrint)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Publishing)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Edition)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Author.NickName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DatePrint)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Publishing)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Edition)
+        </td>
+        <td>
+            @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Подробности", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
