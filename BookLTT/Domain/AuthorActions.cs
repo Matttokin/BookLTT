@@ -16,14 +16,33 @@ namespace BookLTT.Domain
         {
             context = new ContextDB();
         }
-        public int Add(string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime dateDeath)
+        public string Add(string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime dateDeath)
         {
-            throw new NotImplementedException();
+            if (dateDeath != null && dateBirth > dateDeath) return ResponseList.ERR_AUTHOR_BAD_DATE_BOD;
+            if (nickName.Length < 3) return ResponseList.ERR_AUTHOR_NICKNAME_SHORT;
+
+            context.Authors.Add(new Author()
+            {
+                Surname = surname,
+                Name = name,
+                Patronymic = patronymic,
+                NickName = nickName,
+                DateBirth = dateBirth,
+                DateDeath = dateDeath
+            });
+            context.SaveChanges();
+            return ResponseList.SUCCSES_ADD_NEW_ROW;
         }
 
-        public int Delete(int id)
+        public string Delete(int id)
         {
-            throw new NotImplementedException();
+            var author = context.Authors.FirstOrDefault(x => x.Id == id);
+            if (author == null) return ResponseList.ERR_AUTHOR_NOT_EXISTS;
+
+            context.Authors.Remove(author);
+
+            context.SaveChanges();
+            return ResponseList.SUCCSES_DEL_ROW;
         }
 
         public List<Author> GetList()
@@ -32,6 +51,12 @@ namespace BookLTT.Domain
 
             return listAuthor;
         }
+        public Author GetById(int id)
+        {
+            var author = context.Authors.FirstOrDefault(x => x.Id == id);
+
+            return author;
+        }
         public SelectList GetListNickName()
         {
             SelectList sl = new SelectList(GetList(), "Id", "NickName");
@@ -39,9 +64,23 @@ namespace BookLTT.Domain
             return sl;
         }
 
-        public int Update(int id, string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime dateDeath)
+        public string Update(int id, string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime? dateDeath)
         {
-            throw new NotImplementedException();
+            var author = context.Authors.FirstOrDefault(x => x.Id == id);
+            if (author == null) return ResponseList.ERR_AUTHOR_NOT_EXISTS;
+
+            if (dateDeath != null && dateBirth > dateDeath) return ResponseList.ERR_AUTHOR_BAD_DATE_BOD;
+            if (nickName.Length < 3) return ResponseList.ERR_AUTHOR_NICKNAME_SHORT;
+
+            author.Surname = surname;
+            author.Name = name;
+            author.Patronymic = patronymic;
+            author.NickName = nickName;
+            author.DateBirth = dateBirth;
+            author.DateDeath = dateDeath;
+
+            context.SaveChanges();
+            return ResponseList.SUCCSES_EDIT_ROW;
         }
     }
 }

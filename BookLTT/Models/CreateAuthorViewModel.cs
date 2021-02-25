@@ -5,29 +5,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace BookLTT.DataBase.Models
+namespace BookLTT.Models
 {
-    public class Author
+    public class CreateAuthorViewModel
     {
-        public int Id { get; set; }
         [DisplayName("Фамилия")]
         public string Surname { get; set; }
         [DisplayName("Имя")]
         public string Name { get; set; }
         [DisplayName("Отчество")]
         public string Patronymic { get; set; }
-        [DisplayName("ФИО автора")]
+        [DisplayName("ФИО")]
         public string NickName { get; set; }
         [DisplayName("Дата рождения")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         [DataType(DataType.Date)]
         public DateTime DateBirth { get; set; }
         [DisplayName("Дата смерти")]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
         [DataType(DataType.Date)]
-        public DateTime? DateDeath { get; set; }
-
-        public virtual List<Book> Books { get; set; }
-
+        public DateTime DateDeath { get; set; }
     }
 }

@@ -11,9 +11,9 @@ namespace BookLTT.Domain.Interfaces
     interface IBook
     {
         List<Book> GetList();
-        bool Add(string title, int authorId, double price, DateTime datePrint, string publishing, int edition);
+        string Add(string title, int authorId, double price, DateTime datePrint, string publishing, int edition);
         Book GetById(int id);
-        bool Update(int id, string title, int authorId, double price, DateTime datePrint, string publishing, int edition);
-        bool Delete(int id);
+        string Update(int id, string title, int authorId, double price, DateTime datePrint, string publishing, int edition);
+        string Delete(int id);
     }
 }

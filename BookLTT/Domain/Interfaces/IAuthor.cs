@@ -12,8 +12,9 @@ namespace BookLTT.Domain.Interfaces
     {
         List<Author> GetList();
         SelectList GetListNickName();
-        int Add(string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime dateDeath);
-        int Update(int id, string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime dateDeath);
-        int Delete(int id);
+        Author GetById(int id);
+        string Add(string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime dateDeath);
+        string Update(int id, string surname, string name, string patronymic, string nickName, DateTime dateBirth, DateTime? dateDeath);
+        string Delete(int id);
     }
 }

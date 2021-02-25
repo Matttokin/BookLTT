@@ -35,14 +35,8 @@ namespace BookLTT.Controllers
         {
             ViewBag.Authors = aAct.GetListNickName();
             var result = bAct.Update(book.Id, book.Title, book.AuthorId, book.Price, book.DatePrint, book.Publishing, book.Edition);
-            if (result)
-            {
-                ViewBag.Result = "Успешно обновлено";
-            }
-            else
-            {
-                ViewBag.Result = "Произошла ошибка при обновлении";
-            }
+            ViewBag.Result = result;
+
             return View();
         }
         public RedirectResult Delete(int id)
@@ -63,13 +57,7 @@ namespace BookLTT.Controllers
             ViewBag.Authors = aAct.GetListNickName(); 
 
             var result = bAct.Add(book.Title, book.AuthorId, book.Price, book.DatePrint, book.Publishing, book.Edition);
-            if (result)
-            {
-                ViewBag.Result = "Успешно создано";
-            } else
-            {
-                ViewBag.Result = "Произошла ошибка при создании";
-            }
+            ViewBag.Result = result;
 
             return View();
         }

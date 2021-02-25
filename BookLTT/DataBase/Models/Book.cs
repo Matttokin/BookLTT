@@ -16,9 +16,9 @@ namespace BookLTT.DataBase.Models
         public Author Author { get; set; }
         [DisplayName("Цена")]
         public double Price { get; set; }
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}")]
-        [DataType(DataType.Date)]
         [DisplayName("Дата печати")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]        
         public DateTime DatePrint { get; set; }
         [DisplayName("Издательство")]
         public string Publishing { get; set; }

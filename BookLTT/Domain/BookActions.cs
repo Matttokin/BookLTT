@@ -17,10 +17,16 @@ namespace BookLTT.Domain
             context = new ContextDB();
         }
 
-        public bool Add(string title, int authorId, double price, DateTime datePrint, string publishing, int edition)
+        public string Add(string title, int authorId, double price, DateTime datePrint, string publishing, int edition)
         {
             var authorRow = context.Authors.FirstOrDefault(x => x.Id == authorId);
-            if (authorRow == null) return false;
+            if (authorRow == null) return ResponseList.ERR_AUTHOR_NOT_EXISTS;
+
+            if (datePrint > DateTime.Today) return ResponseList.ERR_BOOK_BAD_DATE;
+            if (title.Length < 5) return ResponseList.ERR_BOOK_TITLE_SHORT;
+            if (price < 0) return ResponseList.ERR_BOOK_BAD_PRICE;
+            if (publishing.Length < 5) return ResponseList.ERR_BOOK_PUBLISHING_SHORT;
+            if (edition < 1) return ResponseList.ERR_BOOK_BAD_EDITION;
 
             context.Books.Add(new Book() {
                 Title = title,
@@ -31,23 +37,23 @@ namespace BookLTT.Domain
                 Edition = edition
             });
             context.SaveChanges();
-            return true;
+            return ResponseList.SUCCSES_ADD_NEW_ROW;
         }
 
-        public bool Delete(int id)
+        public string Delete(int id)
         {
             var book = context.Books.FirstOrDefault(x => x.Id == id);
-            if (book == null) return false;
+            if (book == null) return ResponseList.ERR_BOOK_NOT_EXISTS;
 
             context.Books.Remove(book);
 
             context.SaveChanges();
-            return true;
+            return ResponseList.SUCCSES_DEL_ROW;
         }
 
         public Book GetById(int id)
         {
-            var book = context.Books.FirstOrDefault(x => x.Id == id);
+            var book = context.Books.Include(x => x.Author).FirstOrDefault(x => x.Id == id);
 
             return book;
         }
@@ -59,13 +65,19 @@ namespace BookLTT.Domain
             return listBook;
         }
 
-        public bool Update(int id, string title, int authorId, double price, DateTime datePrint, string publishing, int edition)
+        public string Update(int id, string title, int authorId, double price, DateTime datePrint, string publishing, int edition)
         {
             var book = context.Books.FirstOrDefault(x => x.Id == id);
-            if (book == null) return false;
+            if (book == null) return ResponseList.ERR_BOOK_NOT_EXISTS;
 
             var authorRow = context.Authors.FirstOrDefault(x => x.Id == authorId);
-            if (authorRow == null) return false;
+            if (authorRow == null) return ResponseList.ERR_AUTHOR_NOT_EXISTS;
+
+            if (datePrint > DateTime.Today) return ResponseList.ERR_BOOK_BAD_DATE;
+            if (title.Length < 5) return ResponseList.ERR_BOOK_TITLE_SHORT;
+            if (price < 0) return ResponseList.ERR_BOOK_BAD_PRICE;
+            if (publishing.Length < 5) return ResponseList.ERR_BOOK_PUBLISHING_SHORT;
+            if (edition < 1) return ResponseList.ERR_BOOK_BAD_EDITION;
 
             book.Title = title;
             book.AuthorId = authorRow.Id;
@@ -85,7 +97,7 @@ namespace BookLTT.Domain
             };*/
 
             context.SaveChanges();
-            return true;
+            return ResponseList.SUCCSES_EDIT_ROW;
         }
     }
 }
